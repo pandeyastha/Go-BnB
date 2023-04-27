@@ -3,12 +3,15 @@
 import {AiOutlineMenu } from 'react-icons/ai';
 import Avatar from '../Avatar';
 import { useCallback, useState } from 'react';
+
 import MenuItem from './MenuItem';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import useRentModal from '@/app/hooks/useRentModal';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
+
 
 interface UserMenuProps{
   currentUser?: SafeUser|null 
@@ -18,6 +21,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
     const registerModal=useRegisterModal();
     const loginModal =useLoginModal();
+    const rentModal =useRentModal();
     const [isOpen,setIsOpen] =useState(false);
 
     const toggleOpen = useCallback(() => {
@@ -29,8 +33,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
         return loginModal.onOpen();
       }
       //open rent modla
-
-    },[currentUser,loginModal]);
+      rentModal.onOpen();
+    },[currentUser,loginModal,rentModal]);
 
     
       return ( 
@@ -113,7 +117,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 />
                 <MenuItem 
                   label="Airbnb your home" 
-                  onClick={() => {}}
+                  onClick={rentModal.onOpen}
                 />
                 <hr />
                 <MenuItem 
